@@ -1,37 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_pointer.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iganiev <iganiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 16:30:55 by iganiev           #+#    #+#             */
-/*   Updated: 2023/01/31 11:44:55 by iganiev          ###   ########.fr       */
+/*   Created: 2023/05/31 16:04:27 by iganiev           #+#    #+#             */
+/*   Updated: 2023/05/31 16:29:14 by iganiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "pipex.h"
 
-int	put_pointer(unsigned long n)
+void	ft_free(char **array)
 {
-	int		count;
-	char	*hex;
+	int	i;
 
-	count = 1;
-	hex = "0123456789abcdef";
-	if (n > 15)
-		count += put_pointer(n / 16);
-	print_char(hex[n % 16]);
-	return (count);
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+	array = NULL;
 }
 
-int	print_pointer(unsigned long n)
+void	free_all(char **s1, char **s2)
 {
-	int	count;
+	ft_free(s1);
+	ft_free(s2);
+}
 
-	if (n == 0)
-		return (print_str("0x0"));
-	else
-		count = print_str("0x") + put_pointer(n);
-	return (count);
+void	check_pid(pid_t pid)
+{
+	if (pid == -1)
+	{
+		perror("Error");
+		exit(-1);
+	}
 }

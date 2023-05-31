@@ -6,41 +6,38 @@
 #    By: iganiev <iganiev@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/23 11:25:07 by iganiev           #+#    #+#              #
-#    Updated: 2023/05/23 11:29:00 by iganiev          ###   ########.fr        #
+#    Updated: 2023/05/31 16:43:02 by iganiev          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRC = pipex.c
+SRC = pipex.c find_path.c process.c utils.c \
 
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g3 
+#-fsanitize=address
 
 LIB = cd libft && make
 
-MYPRINTF = cd printf42 && make
-
 $(NAME): $(OBJ)
 		$(LIB)
-		$(MYPRINTF)
-		gcc $(OBJ)  libft/libft.a printf42/libftprintf.a -o $(NAME)
+		gcc $(OBJ)  $(CFLAGS) libft/libft.a -o $(NAME)
 
 all: $(NAME)
 
 clean:
 		rm -f $(OBJ)
 		cd libft && make clean
-		cd printf42 && make clean
+
 fclean: clean
 		rm -f $(NAME)
 		cd libft && make fclean
-		cd printf42 && make fclean
+
 re:		fclean all
 		cd libft && make fclean && make all
-		cd printf42 && make fclean && make all
 
 .PHONY:	all clean fclean re
