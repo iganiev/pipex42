@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iganiev <iganiev@student.42.fr>            +#+  +:+       +#+         #
+#    By: iganiev <iganiev@student.42abudhabi.ae>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/23 11:25:07 by iganiev           #+#    #+#              #
-#    Updated: 2023/05/31 16:43:02 by iganiev          ###   ########.fr        #
+#    Updated: 2023/09/07 15:57:51 by iganiev          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ = $(SRC:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g3 
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 #-fsanitize=address
 
 LIB = cd libft && make

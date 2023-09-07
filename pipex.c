@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iganiev <iganiev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iganiev <iganiev@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 11:18:31 by iganiev           #+#    #+#             */
-/*   Updated: 2023/05/31 16:19:04 by iganiev          ###   ########.fr       */
+/*   Updated: 2023/09/07 16:03:22 by iganiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,29 +162,119 @@
 // 	}
 // }
 
+void	*free_pipes(int** pipes, int count)
+{
+	int counter;
+
+	counter = 0;
+	// printf("free size: %d", count);
+	while(count > counter)
+	{
+		// printf("remove pipe: %p\n", pipes[counter]);
+		if (pipes[counter][0] != -1)
+			close(pipes[counter][0]);
+		if (pipes[counter][1] != -1)
+			close(pipes[counter][1]);
+		free(pipes[counter]);
+		counter++;
+	}
+	free(pipes);
+	return (NULL);	
+}
+
+int**	make_pipes(int count, int infile_fd, int outfile_fd)
+{
+	int**	result;
+	int		counter;
+
+	result = malloc(sizeof(int*) * (count));
+	// printf("count size: %d", count);
+	if (!result)
+		return (NULL);
+	counter = 0;
+	while(counter < count)
+	{
+		result[counter] = malloc(sizeof(int) * 2);
+		if (!result[counter])
+			return (free_pipes(result, count));
+		if (counter != 0)
+		{
+			if (pipe(result[counter]) == -1)
+				return (free_pipes(result, count));	
+		}
+		else
+        {
+            result[counter][0] = infile_fd;
+            result[counter][1] = -1; // Set the write end of the pipe to -1
+        }
+        if (counter == count - 1)
+        {
+            result[counter][1] = outfile_fd;
+            result[counter][0] = -1; // Set the read end of the pipe to -1
+        }
+		counter++;
+	}
+	// result[0][0] = infile_fd;
+	// result[0][1] = -1;
+	// result[count - 1][1] = outfile_fd;
+	// result[count - 1][0] = -1;
+ 	return (result);
+}
+
+int make_input(char *infile_path)
+{
+	return (open(infile_path, O_RDONLY));
+}
+
+int make_output(char *outfile_path)
+{
+	return (open(outfile_path, O_CREAT | O_RDWR | O_TRUNC, 0777));
+}
+
 int	main(int ac, char *av[], char **env)
 {
-	int		pipe_fd[2];
-	pid_t	pid_in;
-	pid_t	pid_out;
-	int		status;
+	int		**pipes;
+	// int		status;
+	int 	cmd_count;
+	int		infile_fd;
+	int		outfile_fd;
 
-	if (ac == 5)
+	if (ac >= 5)
 	{
-		if (pipe(pipe_fd) == -1)
-			exit(-1);
-		pid_in = fork();
-		check_pid(pid_in);
-		if (!pid_in)
-			child_process(av, env, pipe_fd);
-		pid_out = fork();
-		check_pid(pid_out);
-		if (!pid_out)
-			parent_process(av, env, pipe_fd);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		waitpid(pid_in, &status, 0);
-		waitpid(pid_out, &status, 0);
+		outfile_fd = make_output(av[ac - 1]);
+		if (outfile_fd == -1)
+			return (1);
+		infile_fd = make_input(av[1]);
+		if (infile_fd == -1)
+		{
+			close(outfile_fd);
+			return (1);
+		}
+		pipes = make_pipes(ac - 2, infile_fd, outfile_fd); // make array of pipes
+		// printf("free_size: %d\n", ac);
+		// free_pipes(pipes, ac - 2);
+		// exit(0);
+		if (!pipes)
+		{
+			close(infile_fd);
+			close(outfile_fd);
+			return (1);			
+		}
+		cmd_count = 0;
+		while (cmd_count < ac - 3)
+		{
+			// printf("start command : %d\n", cmd_count);
+			child_process(av[cmd_count + 2], env, pipes[cmd_count], pipes[cmd_count+1]);
+			cmd_count++;
+		}
+		free_pipes(pipes, ac - 2);
+		cmd_count = 0;
+		while (cmd_count < ac - 3)
+		{
+			// printf("wait command: %d\n", cmd_count);
+			wait(NULL);
+			cmd_count++;
+		}
 	}
 	else
 		perror("Invalid args!");

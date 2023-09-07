@@ -1,0 +1,20 @@
+total 684
+drwxrwxrwx 1 ibrahim98 ibrahim98   4096 Sep  7 16:04 .
+drwxrwxrwx 1 ibrahim98 ibrahim98   4096 Sep  7 13:36 ..
+-rwxrwxrwx 1 ibrahim98 ibrahim98   6148 Sep  7 13:36 .DS_Store
+drwxrwxrwx 1 ibrahim98 ibrahim98   4096 Sep  7 13:36 .git
+-rwxrwxrwx 1 ibrahim98 ibrahim98   1358 Sep  7 15:57 Makefile
+-rwxrwxrwx 1 ibrahim98 ibrahim98   1854 Sep  7 13:36 find_path.c
+-rwxrwxrwx 1 ibrahim98 ibrahim98 138192 Sep  7 15:57 find_path.o
+-rwxrwxrwx 1 ibrahim98 ibrahim98     12 Sep  7 14:45 infile
+drwxrwxrwx 1 ibrahim98 ibrahim98   4096 Sep  7 15:58 libft
+-rwxrwxrwx 1 ibrahim98 ibrahim98      3 Sep  7 16:04 out
+-rwxrwxrwx 1 ibrahim98 ibrahim98      0 Sep  7 16:06 outfile
+-rwxrwxrwx 1 ibrahim98 ibrahim98  99648 Sep  7 16:04 pipex
+-rwxrwxrwx 1 ibrahim98 ibrahim98   6193 Sep  7 16:03 pipex.c
+-rwxrwxrwx 1 ibrahim98 ibrahim98   1512 Sep  7 14:44 pipex.h
+-rwxrwxrwx 1 ibrahim98 ibrahim98 140088 Sep  7 16:04 pipex.o
+-rwxrwxrwx 1 ibrahim98 ibrahim98   2046 Sep  7 15:03 process.c
+-rwxrwxrwx 1 ibrahim98 ibrahim98 137424 Sep  7 15:57 process.o
+-rwxrwxrwx 1 ibrahim98 ibrahim98   1191 Sep  7 13:36 utils.c
+-rwxrwxrwx 1 ibrahim98 ibrahim98 135536 Sep  7 15:57 utils.o

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iganiev <iganiev@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iganiev <iganiev@student.42abudhabi.ae>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 11:19:11 by iganiev           #+#    #+#             */
-/*   Updated: 2023/05/31 16:43:16 by iganiev          ###   ########.fr       */
+/*   Updated: 2023/09/07 14:44:35 by iganiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int			get_pathlen(char **env);
 char		*find_path(char *command, char **env);
 
 void		execute(char *av, char **env);
-void		child_process(char *av[], char **env, int *pipe_fd);
-void		parent_process(char *av[], char **env, int *pipe_fd);
+void		child_process(char *av, char **env, int *in_pipe, int *out_pipe);
+// void		parent_process(char *av[], char **env, int *pipe_fd);
 
 void		ft_free(char **array);
 void		free_all(char **s1, char **s2);
